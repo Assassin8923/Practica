@@ -1,0 +1,14 @@
+/home/jdh/Документи/OPAM/Practica1/bin/Debug/net8.0/Practica1
+/home/jdh/Документи/OPAM/Practica1/bin/Debug/net8.0/Practica1.deps.json
+/home/jdh/Документи/OPAM/Practica1/bin/Debug/net8.0/Practica1.runtimeconfig.json
+/home/jdh/Документи/OPAM/Practica1/bin/Debug/net8.0/Practica1.dll
+/home/jdh/Документи/OPAM/Practica1/bin/Debug/net8.0/Practica1.pdb
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.GeneratedMSBuildEditorConfig.editorconfig
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.AssemblyInfoInputs.cache
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.AssemblyInfo.cs
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.csproj.CoreCompileInputs.cache
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.dll
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/refint/Practica1.dll
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.pdb
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.genruntimeconfig.cache
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/ref/Practica1.dll
