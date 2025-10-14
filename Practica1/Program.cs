@@ -37,7 +37,7 @@ class Program
         double cost4 = prise4 * unit4;
         double cost5 = prise5 * unit5;
 
-        double discount = new Random().NextDouble() * 101230;
+        double discount = new Random().NextDouble() * 10;
         double discountT = Math.Round(discount, 2);
 
         double sum = cost1 + cost2 + cost3 + cost4 + cost5;
@@ -56,7 +56,7 @@ class Program
         Console.WriteLine("Вартість " + product5 + " за одиницю " + prise5 + ". Загальна: " + cost5 + " грн.");   
         Console.ResetColor();
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("Знижка: " + discountT + " грн.");
+        Console.WriteLine("Знижка: " + discountT + " %");
         Console.ResetColor();
 
         Console.ForegroundColor = ConsoleColor.Red;
