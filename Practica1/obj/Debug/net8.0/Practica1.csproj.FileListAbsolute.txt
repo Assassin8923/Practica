@@ -12,3 +12,4 @@
 /home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.pdb
 /home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.genruntimeconfig.cache
 /home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/ref/Practica1.dll
+/home/jdh/Документи/OPAM/Practica1/obj/Debug/net8.0/Practica1.sourcelink.json
