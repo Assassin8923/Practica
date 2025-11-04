@@ -4,64 +4,133 @@ class Program
 {
     static void Main()
     {
-        double price1 = 500.00;
-        double price2 = 300.00;
-        double price3 = 700.00;
-        double prise4 = 150.00;
-        double prise5 = 250.00;
+        ShowMenu(); 
+    }
 
-        string product1 = "Подарунковий набір";
-        string product2 = "Імена чашка";
-        string product3 = "Букет";
-        string product4 = "Аромо свічка";
-        string product5 = "Шоколодний набір";
+    static void ShowMenu()
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("МЕНЮ МАГАЗИНУ");
+        Console.ResetColor();
+        Console.WriteLine("1. Переглянути товари");
+        Console.WriteLine("2. Розрахувати покупку");
+        Console.WriteLine("3. Інформація про магазин");
+        Console.WriteLine("0. Вихід");
+        Console.Write("Ваш вибір: ");
 
-        double unit1, unit2, unit3, unit4, unit5;
+        try
+        {
+            int choice = Convert.ToInt32(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    ShowProducts();
+                    break;
+                case 2:
+                    CalculatePurchase();
+                    break;
+                case 3:
+                    ShowInfo();
+                    break;
+                case 0:
+                    Console.WriteLine("Вихід з програми...");
+                    return;
+                default:
+                    Console.WriteLine("Невірний вибір!");
+                    break;
+            }
+        }
+        catch (FormatException)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Помилка: введіть число!");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Непередбачена помилка: {ex.Message}");
+        }
 
+        ShowMenu();
+    }
+
+    static void ShowProducts()
+    {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("Потрібно " + product1 + " (шт.)"); 
-        unit1 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Потрібно " + product2 + " (шт.)"); 
-        unit2 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Потрібно " + product3 + " (шт.)"); 
-        unit3 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Потрібно " + product4 + " (шт.)"); 
-        unit4 = Convert.ToDouble(Console.ReadLine());
-        Console.WriteLine("Потрібно " + product5 + " (шт.)"); 
-        unit5 = Convert.ToDouble(Console.ReadLine());
+        Console.WriteLine("Перелік товарів");
         Console.ResetColor();
 
-        double cost1 = price1 * unit1;
-        double cost2 = price2 * unit2;
-        double cost3 = price3 * unit3;
-        double cost4 = prise4 * unit4;
-        double cost5 = prise5 * unit5;
+        string[] products = { "Подарунковий набір", "Іменна чашка", "Букет", "Аромо свічка", "Шоколадний набір" };
+        double[] prices = { 500, 300, 700, 150, 250 };
 
-        double discount = new Random().NextDouble() * 10;
-        double discountT = Math.Round(discount, 2);
+        for (int i = 0; i < products.Length; i++)
+        {
+            ShowInfo(products[i], prices[i]);
+        }
+    }
 
-        double sum = cost1 + cost2 + cost3 + cost4 + cost5;
-        double total = sum * (1 - discount / 100);
-
-        total = Math.Round(total, 2);
-
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Деталізація замовлення:");
+    static void CalculatePurchase()
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Розрахунок покупки");
         Console.ResetColor();
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("Вартість " + product1 + " за одиницю "  + price1 +  ". Загальна: " + cost1 + " грн.");
-        Console.WriteLine("Вартість " + product2 + " за одиницю "  + price2 +  ". Загальна: " + cost2 + " грн.");
-        Console.WriteLine("Вартість " + product3 + " за одиницю "  + price3 +  ". Загальна: " + cost3 + " грн.");
-        Console.WriteLine("Вартість " + product4 + " за одиницю " + prise4 + ". Загальна: " + cost4 + " грн.");
-        Console.WriteLine("Вартість " + product5 + " за одиницю " + prise5 + ". Загальна: " + cost5 + " грн.");   
-        Console.ResetColor();
+
+        string[] products = { "Подарунковий набір", "Іменна чашка", "Букет", "Аромо свічка", "Шоколадний набір" };
+        double[] prices = { 500, 300, 700, 150, 250 };
+        double sum = 0;
+
+        for (int i = 0; i < products.Length; i++)
+        {
+            Console.Write($"Кількість '{products[i]}' (шт.): ");
+            double qty;
+            try
+            {
+                qty = Convert.ToDouble(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Некоректне введення, пропускаємо товар...");
+                continue;
+            }
+
+            GetTotal(ref sum, prices[i] * qty);
+        }
+
+        CalculateDiscount(sum, out double total);
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("Знижка: " + discountT + " %");
+        Console.WriteLine($"\nЗагальна вартість зі знижкою: {Math.Round(total, 2)} грн");
         Console.ResetColor();
+    }
 
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Загальна вартість замовлення: " + total + " грн.");
+    static void ShowInfo()
+    {
+        Console.WriteLine("Інформація про магазин");
+        Console.WriteLine("Магазин подарунків 'HappyBox'");
+        Console.WriteLine("Місто: Іршава");
+        Console.WriteLine("Режим роботи: 9:00 – 19:00");
+    }
 
-        Console.ReadKey();
+
+    static void GetTotal(ref double sum, double price)
+    {
+        sum += price;
+    }
+
+    static void CalculateDiscount(double total, out double result)
+    {
+        double discount = new Random().Next(5, 15);
+        result = total * (1 - discount / 100);
+        Console.WriteLine($"Знижка: {discount}%");
+    }
+
+
+    static void ShowInfo(string name)
+    {
+        Console.WriteLine($"Назва товару: {name}");
+    }
+
+    static void ShowInfo(string name, double price)
+    {
+        Console.WriteLine($"Товар: {name}, Ціна: {price} грн");
     }
 }
