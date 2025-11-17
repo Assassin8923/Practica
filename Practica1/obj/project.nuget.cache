@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "njjENhHQxQvqBPXp3Hm6/67mRrsqZFN+hZfOPmeBggvohKutSoZ5T7SnDapITKzwqXekoGt/ul68k2AA+rM/qg==",
+  "dgSpecHash": "YOr5+Ojbz0w=",
   "success": true,
-  "projectFilePath": "/home/jdh/Документи/OPAM/Practica1/Practica1.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\Practica1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rosty\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.21\\microsoft.netcore.app.ref.8.0.21.nupkg.sha512",
+    "C:\\Users\\rosty\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.21\\microsoft.windowsdesktop.app.ref.8.0.21.nupkg.sha512",
+    "C:\\Users\\rosty\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.21\\microsoft.aspnetcore.app.ref.8.0.21.nupkg.sha512",
+    "C:\\Users\\rosty\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.21\\microsoft.netcore.app.host.win-x64.8.0.21.nupkg.sha512"
+  ],
   "logs": []
 }

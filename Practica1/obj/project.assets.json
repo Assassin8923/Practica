@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/home/jdh/.nuget/packages/": {}
+    "C:\\Users\\rosty\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/jdh/Документи/OPAM/Practica1/Practica1.csproj",
+      "projectUniqueName": "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\Practica1.csproj",
       "projectName": "Practica1",
-      "projectPath": "/home/jdh/Документи/OPAM/Practica1/Practica1.csproj",
-      "packagesPath": "/home/jdh/.nuget/packages/",
-      "outputPath": "/home/jdh/Документи/OPAM/Practica1/obj/",
+      "projectPath": "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\Practica1.csproj",
+      "packagesPath": "C:\\Users\\rosty\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/jdh/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\rosty\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -38,7 +38,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -54,12 +60,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.21, 8.0.21]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[8.0.21, 8.0.21]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.21, 8.0.21]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.21, 8.0.21]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.121/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
