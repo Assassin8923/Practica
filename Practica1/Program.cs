@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 class Program
@@ -37,7 +36,7 @@ class Program
         do
         {
             Console.WriteLine("Ввійти як покупець чи адміністратор? (покупець, адміністратор)");
-            string choice = Console.ReadLine().ToLower();
+            string choice = Console.ReadLine()!.ToLower();
             if (choice == "покупець")
             {
                 ShowMenu();
@@ -64,9 +63,9 @@ class Program
         do
         {
             Console.Write("Введіть логін: ");
-            enteredLogin = Console.ReadLine();
+            enteredLogin = Console.ReadLine()!;
             Console.Write("Введіть пароль: ");
-            enteredPassword = Console.ReadLine();
+            enteredPassword = Console.ReadLine()!;
 
             if (enteredLogin == "admin" && enteredPassword == "admin")
             {
@@ -92,9 +91,13 @@ class Program
         int choice;
         while (true)
         {
+            Console.WriteLine("\n=== МЕНЮ АДМІНІСТРАТОРА ===");
             Console.WriteLine("1. Переглянути товари");
-            Console.WriteLine("2. Редагувати товари");
-            Console.WriteLine("3. Звіт");
+            Console.WriteLine("2. Додати товар");
+            Console.WriteLine("3. Пошук товару");
+            Console.WriteLine("4. Видалити товар");
+            Console.WriteLine("5. Сортування товарів");
+            Console.WriteLine("6. Статистика");
             Console.WriteLine("0. Вихід");
             Console.Write("Ваш вибір: ");
             if (!int.TryParse(Console.ReadLine(), out choice)) continue;
@@ -102,37 +105,11 @@ class Program
             switch (choice)
             {
                 case 1: ShowProducts(); break;
-                case 2: EditPurchase(); break;
-                case 3: ShowReport(); break;
-                case 0: return;
-                default: Console.WriteLine("Невірний вибір!"); break;
-            }
-        }
-    }
-
-    static void ShowMenu()
-    {
-        int choice;
-        while (true)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("МЕНЮ МАГАЗИНУ");
-            Console.ResetColor();
-            Console.WriteLine("1. Переглянути товари");
-            Console.WriteLine("2. Купити товари");
-            Console.WriteLine("3. Інформація про магазин");
-            Console.WriteLine("4. Звіт");
-            Console.WriteLine("0. Вихід");
-            Console.Write("Ваш вибір: ");
-
-            if (!int.TryParse(Console.ReadLine(), out choice)) continue;
-
-            switch (choice)
-            {
-                case 1: ShowProducts(); break;
-                case 2: CalculatePurchase(); break;
-                case 3: ShowInfo(); break;
-                case 4: ShowReport(); break;
+                case 2: AddProducts(); break;
+                case 3: SearchProduct(); break;
+                case 4: DeleteProduct(); break;
+                case 5: SortProducts(); break;
+                case 6: ShowStatistics(); break;
                 case 0: return;
                 default: Console.WriteLine("Невірний вибір!"); break;
             }
@@ -145,176 +122,153 @@ class Program
         {
             try
             {
-                string json = File.ReadAllText(filePath);
-                if (!string.IsNullOrWhiteSpace(json))
-                {
-                    var loaded = JsonSerializer.Deserialize<List<Product>>(json);
-                    products = loaded?.Where(p => p != null).ToList() ?? new List<Product>();
-                }
+                var loaded = JsonSerializer.Deserialize<List<Product>>(File.ReadAllText(filePath));
+                if (loaded != null) products = loaded;
             }
-            catch
-            {
-                Console.WriteLine("Помилка завантаження. Використовуємо дефолтні.");
-            }
+            catch { }
         }
-        if (products.Count == 0) GetDefaultProducts();
-        SaveProducts();
-    }
 
-    static void GetDefaultProducts()
-    {
-        products.Clear();
-        string[] names = { "Подарунковий набір", "Іменна чашка", "Букет", "Аромо свічка", "Шоколадний набір" };
-        double[] prices = { 500, 300, 700, 150, 250 };
-
-        for (int i = 0; i < 5; i++)
+        if (products.Count == 0)
         {
-            products.Add(new Product(names[i], prices[i]));
+            string[] names = { "Подарунковий набір", "Іменна чашка", "Букет", "Аромо свічка", "Шоколадний набір" };
+            double[] prices = { 500, 300, 700, 150, 250 };
+
+            for (int i = 0; i < 5; i++)
+                products.Add(new Product(names[i], prices[i]));
+
+            SaveProducts();
         }
-        SaveProducts();
     }
 
     static void SaveProducts()
     {
-        string json = JsonSerializer.Serialize(products, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(filePath, json);
-    }
-
-    static void EditPurchase()
-    {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("Додати новий товар чи змінити існуючий? (додати / змінити)");
-        Console.ResetColor();
-        string choice1 = Console.ReadLine().ToLower().Trim();
-
-        if (choice1 == "додати")
-        {
-            Console.Write("Назва: "); string name = Console.ReadLine().Trim();
-            if (string.IsNullOrWhiteSpace(name) || products.Any(p => p != null && p.name?.ToLower() == name.ToLower())) { Console.WriteLine("Невірна назва."); return; }
-            Console.Write("Ціна: "); if (!double.TryParse(Console.ReadLine(), out double price) || price < 0) { Console.WriteLine("Невірна ціна."); return; }
-            products.Add(new Product(name, price));
-            SaveProducts();
-            Console.WriteLine("Додано!");
-        }
-        else if (choice1 == "змінити")
-        {
-            ShowProducts();
-            Console.Write("Назва для зміни: "); string editname = Console.ReadLine().ToLower().Trim();
-            for (int i = 0; i < products.Count; i++)
-            {
-                if (products[i] != null && products[i].name?.ToLower() == editname)
-                {
-                    Console.Write("Нова назва: "); products[i].name = Console.ReadLine().Trim();
-                    Console.Write("Нова ціна: "); 
-                    if (double.TryParse(Console.ReadLine(), out double newPrice)) products[i].price = newPrice;
-                    SaveProducts();
-                    Console.WriteLine("Змінено!");
-                    break;
-                }
-            }
-            if (products.All(p => p == null || p.name?.ToLower() != editname)) Console.WriteLine("Не знайдено!");
-        }
+        File.WriteAllText(filePath, JsonSerializer.Serialize(products, new JsonSerializerOptions { WriteIndented = true }));
     }
 
     static void ShowProducts()
     {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("Перелік товарів");
-        Console.ResetColor();
-        foreach (var p in products) if (!string.IsNullOrEmpty(p.name)) ShowInfo(p);
-    }
-
-    static void ShowInfo(Product p)
-    {
-        Console.WriteLine($"Товар: {p.name}, Ціна: {p.price} грн");
-    }
-
-    static void CalculatePurchase()
-    {
-        double sum = 0;
-        foreach (var p in products.Where(p => !string.IsNullOrEmpty(p.name)))
+        if (products.Count == 0)
         {
-            ShowInfo(p);
-            Console.Write($"Кількість '{p.name}' (шт.): ");
-            if (double.TryParse(Console.ReadLine(), out double qty) && qty > 0)
-            {
-                sum += p.price * qty;
-            }
-            else continue;
+            Console.WriteLine("Список товарів порожній.");
+            return;
         }
-        CalculateDiscount(sum, out double total);
-        Console.WriteLine($"Загальна вартість зі знижкою: {Math.Round(total, 2)} грн");
-        Console.WriteLine("Показати статистику? (так/ні)");
-        if (Console.ReadLine().ToLower() == "так") ShowStatistics();
-    }
 
-    static void ShowReport()
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("=== ЗВІТ МАГАЗИНУ ===");
-        Console.ResetColor();
-        Console.WriteLine("Перелік товарів:");
-        Console.WriteLine(new string('-', 40));
-        foreach (var p in products.Where(p => !string.IsNullOrEmpty(p.name)))
-        {
-            Console.WriteLine($"| {p.name,-25} | {p.price,8:F2} грн |");
-        }
-        Console.WriteLine(new string('-', 40));
-        Console.WriteLine("\nПідсумкові дані:");
-        double totalPrice = products.Where(p => !string.IsNullOrEmpty(p.name) && p.price > 0).Sum(p => p.price);
-        double average = products.Count(p => !string.IsNullOrEmpty(p.name) && p.price > 0) > 0 ? totalPrice / products.Count(p => !string.IsNullOrEmpty(p.name) && p.price > 0) : 0;
-        int countAbove500 = products.Count(p => !string.IsNullOrEmpty(p.name) && p.price > 500);
-        double minPrice = products.Where(p => !string.IsNullOrEmpty(p.name) && p.price > 0).Min(p => p.price);
-        double maxPrice = products.Where(p => !string.IsNullOrEmpty(p.name) && p.price > 0).Max(p => p.price);
-        Console.WriteLine($"Загальна сума: {totalPrice:F2} грн");
-        Console.WriteLine($"Середня ціна: {average:F2} грн");
-        Console.WriteLine($"Товарів >500 грн: {countAbove500}");
-        Console.WriteLine($"Мін ціна: {minPrice:F2} грн");
-        Console.WriteLine($"Макс ціна: {maxPrice:F2} грн");
-        Console.WriteLine("=== КІНЕЦЬ ЗВІТУ ===");
-    }
-
-    static void ShowInfo()
-    {
-        Console.WriteLine("Магазин подарунків 'HappyBox'");
-        Console.WriteLine("Місто: Іршава");
-        Console.WriteLine("Режим роботи: 9:00 – 19:00");
-    }
-
-    static void CalculateDiscount(double total, out double result)
-    {
-        double discount = new Random().Next(5, 15);
-        result = total * (1 - discount / 100);
-        Console.WriteLine($"Знижка: {discount}%");
-    }
-
-    static void ShowStatistics()
-    {
-        double totalPrice = 0, sum = 0;
-        int count = 0, countAbove500 = 0;
-        double minPrice = double.MaxValue, maxPrice = double.MinValue;
-        string minName = "", maxName = "";
+        Console.WriteLine("\n-------------------------------------------");
+        Console.WriteLine($"| {"Індекс",-5} | {"Назва",-25} | {"Ціна",10} |");
+        Console.WriteLine("-------------------------------------------");
 
         for (int i = 0; i < products.Count; i++)
         {
             var p = products[i];
-            if (string.IsNullOrEmpty(p.name) || p.price <= 0) continue;
-
-            totalPrice += p.price;
-            sum += p.price;
-            count++;
-            if (p.price > 500) countAbove500++;
-
-            if (p.price < minPrice) { minPrice = p.price; minName = p.name; }
-            if (p.price > maxPrice) { maxPrice = p.price; maxName = p.name; }
+            Console.WriteLine($"| {i,-5} | {p.name,-25} | {p.price,10:F2} |");
         }
 
-        double average = count > 0 ? sum / count : 0;
-        Console.WriteLine("Статистика:");
-        Console.WriteLine($"Загальна сума: {totalPrice} грн");
-        Console.WriteLine($"Середня ціна: {average:F2} грн");
-        Console.WriteLine($"Товарів >500 грн: {countAbove500}");
-        Console.WriteLine($"Мін: {minName} ({minPrice} грн)");
-        Console.WriteLine($"Макс: {maxName} ({maxPrice} грн)");
+        Console.WriteLine("-------------------------------------------");
     }
+
+    static void AddProducts()
+    {
+        Console.Write("Скільки товарів додати: ");
+        if (!int.TryParse(Console.ReadLine(), out int c) || c <= 0) return;
+
+        for (int i = 0; i < c; i++)
+        {
+            Console.Write("Назва: ");
+            string n = Console.ReadLine()!;
+            Console.Write("Ціна: ");
+            if (!double.TryParse(Console.ReadLine(), out double p) || p < 0) { i--; continue; }
+
+            products.Add(new Product(n, p));
+        }
+        SaveProducts();
+    }
+
+    static void SearchProduct()
+    {
+        Console.Write("Введіть назву товару для пошуку: ");
+        string key = Console.ReadLine()!.ToLower();
+
+        for (int i = 0; i < products.Count; i++)
+        {
+            if (products[i].name.ToLower() == key)
+            {
+                Console.WriteLine($"Знайдено: {products[i].name} — {products[i].price} грн (Індекс {i})");
+                return;
+            }
+        }
+
+        Console.WriteLine("Не знайдено.");
+    }
+
+    static void DeleteProduct()
+    {
+        Console.WriteLine("1. За індексом");
+        Console.WriteLine("2.  назвою");
+        Console.Write("Вибір: ");
+        if (!int.TryParse(Console.ReadLine(), out int c)) return;
+
+        if (c == 1)
+        {
+            Console.Write("Введіть індекс: ");
+            if (!int.TryParse(Console.ReadLine(), out int id)) return;
+            if (id >= 0 && id < products.Count)
+            {
+                products.RemoveAt(id);
+                Console.WriteLine("Видалено!");
+            }
+        }
+        else if (c == 2)
+        {
+            Console.Write("Введіть назву: ");
+            string n = Console.ReadLine()!.ToLower();
+            for (int i = 0; i < products.Count; i++)
+            {
+                if (products[i].name.ToLower() == n)
+                {
+                    products.RemoveAt(i);
+                    Console.WriteLine("Видалено!");
+                    break;
+                }
+            }
+        }
+        SaveProducts();
+    }
+
+    static void SortProducts()
+    {
+        Console.WriteLine("1. За ціною");
+        Console.WriteLine("2. За назвою");
+        Console.Write("Вибір: ");
+        if (!int.TryParse(Console.ReadLine(), out int c)) return;
+
+        if (c == 1) products.Sort((a, b) => a.price.CompareTo(b.price));
+        else if (c == 2) products.Sort((a, b) => a.name.CompareTo(b.name));
+        SaveProducts();
+    }
+
+    static void ShowStatistics()
+    {
+        if (products.Count == 0) return;
+
+        double sum = 0, min = products[0].price, max = products[0].price;
+        string minN = products[0].name, maxN = products[0].name;
+
+        for (int i = 0; i < products.Count; i++)
+        {
+            double p = products[i].price;
+            sum += p;
+            if (p < min) { min = p; minN = products[i].name; }
+            if (p > max) { max = p; maxN = products[i].name; }
+        }
+
+        double avg = sum / products.Count;
+
+        Console.WriteLine($"\nКількість: {products.Count}");
+        Console.WriteLine($"Сума: {sum:F2}");
+        Console.WriteLine($"Середня ціна: {avg:F2}");
+        Console.WriteLine($"Мінімум: {minN} — {min:F2}");
+        Console.WriteLine($"Максимум: {maxN} — {max:F2}");
+    }
+
+    static void ShowMenu() { }
 }
