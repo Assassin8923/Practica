@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\Practica1.csproj": {}
+    "C:\\Users\\rosty\\RiderProjects\\Practica\\Practica1\\Practica1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\Practica1.csproj": {
+    "C:\\Users\\rosty\\RiderProjects\\Practica\\Practica1\\Practica1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\Practica1.csproj",
+        "projectUniqueName": "C:\\Users\\rosty\\RiderProjects\\Practica\\Practica1\\Practica1.csproj",
         "projectName": "Practica1",
-        "projectPath": "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\Practica1.csproj",
+        "projectPath": "C:\\Users\\rosty\\RiderProjects\\Practica\\Practica1\\Practica1.csproj",
         "packagesPath": "C:\\Users\\rosty\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rosty\\Documents\\Practica\\Practica\\Practica1\\obj\\",
+        "outputPath": "C:\\Users\\rosty\\RiderProjects\\Practica\\Practica1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rosty\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -57,19 +57,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.21, 8.0.21]"
+              "version": "[8.0.22, 8.0.22]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.21, 8.0.21]"
+              "version": "[8.0.22, 8.0.22]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.21, 8.0.21]"
+              "version": "[8.0.22, 8.0.22]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.21, 8.0.21]"
+              "version": "[8.0.22, 8.0.22]"
             }
           ],
           "frameworkReferences": {
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
